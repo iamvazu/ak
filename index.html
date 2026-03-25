@@ -1,0 +1,1361 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Avinash Kotekar — Website Redesign Game Plan</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400;500;700&family=JetBrains+Mono:wght@300;400&display=swap"
+        rel="stylesheet">
+    <style>
+        :root {
+            --bg: #0a0a0a;
+            --fg: #f0ece4;
+            --accent: #c8a86e;
+            --accent2: #8b6914;
+            --muted: #666;
+            --card: #111;
+            --border: #222;
+            --red: #e54040;
+            --green: #4ae54a;
+            --serif: 'Playfair Display', Georgia, serif;
+            --sans: 'DM Sans', system-ui, sans-serif;
+            --mono: 'JetBrains Mono', monospace;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background: var(--bg);
+            color: var(--fg);
+            font-family: var(--sans);
+            font-weight: 300;
+            line-height: 1.7;
+            overflow-x: hidden;
+        }
+
+        ::selection {
+            background: var(--accent);
+            color: var(--bg);
+        }
+
+        /* NOISE OVERLAY */
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+            pointer-events: none;
+            z-index: 9999;
+        }
+
+        /* TOP NAV */
+        .topbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 40px;
+            z-index: 100;
+            mix-blend-mode: difference;
+        }
+
+        .topbar .logo {
+            font-family: var(--mono);
+            font-size: 11px;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+        }
+
+        .topbar .phase-nav {
+            display: flex;
+            gap: 24px;
+        }
+
+        .topbar .phase-nav a {
+            font-family: var(--mono);
+            font-size: 10px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: var(--fg);
+            text-decoration: none;
+            opacity: 0.5;
+            transition: opacity 0.3s;
+        }
+
+        .topbar .phase-nav a:hover {
+            opacity: 1;
+        }
+
+        /* HERO */
+        .hero {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 40px;
+            position: relative;
+        }
+
+        .hero-number {
+            font-family: var(--serif);
+            font-size: clamp(120px, 20vw, 280px);
+            font-weight: 400;
+            line-height: 0.85;
+            color: transparent;
+            -webkit-text-stroke: 1px var(--accent);
+            opacity: 0.15;
+            position: absolute;
+        }
+
+        .hero h1 {
+            font-family: var(--serif);
+            font-size: clamp(36px, 5vw, 72px);
+            font-weight: 400;
+            line-height: 1.15;
+            max-width: 900px;
+            position: relative;
+        }
+
+        .hero h1 em {
+            font-style: italic;
+            color: var(--accent);
+        }
+
+        .hero-sub {
+            font-family: var(--mono);
+            font-size: 11px;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            color: var(--muted);
+            margin-top: 32px;
+        }
+
+        .scroll-hint {
+            position: absolute;
+            bottom: 40px;
+            font-family: var(--mono);
+            font-size: 10px;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: var(--muted);
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+
+            0%,
+            100% {
+                opacity: 0.3;
+            }
+
+            50% {
+                opacity: 1;
+            }
+        }
+
+        /* SECTION LAYOUT */
+        .section {
+            padding: 120px 40px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .section-label {
+            font-family: var(--mono);
+            font-size: 10px;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            color: var(--accent);
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .section-label::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: var(--border);
+        }
+
+        .section h2 {
+            font-family: var(--serif);
+            font-size: clamp(28px, 3.5vw, 52px);
+            font-weight: 400;
+            line-height: 1.2;
+            margin-bottom: 48px;
+        }
+
+        .section h2 em {
+            font-style: italic;
+            color: var(--accent);
+        }
+
+        /* AUDIT GRID */
+        .audit-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2px;
+            margin: 48px 0;
+        }
+
+        .audit-card {
+            background: var(--card);
+            padding: 40px;
+            border: 1px solid var(--border);
+            transition: border-color 0.4s;
+        }
+
+        .audit-card:hover {
+            border-color: var(--accent);
+        }
+
+        .audit-card .issue-type {
+            font-family: var(--mono);
+            font-size: 9px;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .issue-type .dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+        }
+
+        .dot.critical {
+            background: var(--red);
+        }
+
+        .dot.warn {
+            background: #e5a840;
+        }
+
+        .dot.info {
+            background: #4a9de5;
+        }
+
+        .audit-card h4 {
+            font-family: var(--sans);
+            font-weight: 500;
+            font-size: 18px;
+            margin-bottom: 12px;
+        }
+
+        .audit-card p {
+            color: var(--muted);
+            font-size: 14px;
+            line-height: 1.6;
+        }
+
+        /* COMPARISON TABLE */
+        .compare-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 48px 0;
+            font-size: 14px;
+        }
+
+        .compare-table th {
+            font-family: var(--mono);
+            font-size: 10px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            text-align: left;
+            padding: 16px 20px;
+            border-bottom: 1px solid var(--accent);
+            color: var(--accent);
+        }
+
+        .compare-table td {
+            padding: 16px 20px;
+            border-bottom: 1px solid var(--border);
+            vertical-align: top;
+        }
+
+        .compare-table td:first-child {
+            font-weight: 500;
+            white-space: nowrap;
+        }
+
+        .compare-table .old {
+            color: var(--red);
+            opacity: 0.7;
+        }
+
+        .compare-table .new {
+            color: var(--green);
+        }
+
+        /* PHASES */
+        .phase {
+            padding: 100px 40px;
+            max-width: 1400px;
+            margin: 0 auto;
+            border-top: 1px solid var(--border);
+        }
+
+        .phase-header {
+            display: grid;
+            grid-template-columns: 100px 1fr;
+            gap: 40px;
+            margin-bottom: 60px;
+        }
+
+        .phase-num {
+            font-family: var(--serif);
+            font-size: 64px;
+            color: var(--accent);
+            line-height: 1;
+        }
+
+        .phase-meta h3 {
+            font-family: var(--serif);
+            font-size: clamp(24px, 3vw, 40px);
+            font-weight: 400;
+            margin-bottom: 12px;
+        }
+
+        .phase-meta p {
+            color: var(--muted);
+            font-size: 15px;
+            max-width: 600px;
+        }
+
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 24px;
+            margin-top: 40px;
+        }
+
+        .feature {
+            padding: 32px;
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 2px;
+            transition: transform 0.3s, border-color 0.4s;
+        }
+
+        .feature:hover {
+            transform: translateY(-4px);
+            border-color: var(--accent);
+        }
+
+        .feature-icon {
+            font-size: 28px;
+            margin-bottom: 16px;
+            display: block;
+        }
+
+        .feature h5 {
+            font-family: var(--sans);
+            font-weight: 500;
+            font-size: 16px;
+            margin-bottom: 8px;
+        }
+
+        .feature p {
+            font-size: 13px;
+            color: var(--muted);
+            line-height: 1.6;
+        }
+
+        /* TECH STACK */
+        .stack-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin: 24px 0;
+        }
+
+        .stack-tag {
+            font-family: var(--mono);
+            font-size: 11px;
+            padding: 8px 16px;
+            border: 1px solid var(--border);
+            border-radius: 2px;
+            color: var(--fg);
+            transition: all 0.3s;
+            cursor: default;
+        }
+
+        .stack-tag:hover {
+            border-color: var(--accent);
+            color: var(--accent);
+        }
+
+        .stack-tag.primary {
+            border-color: var(--accent);
+            background: rgba(200, 168, 110, 0.08);
+            color: var(--accent);
+        }
+
+        /* TIMELINE */
+        .timeline {
+            margin: 60px 0;
+            position: relative;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 60px;
+            top: 0;
+            bottom: 0;
+            width: 1px;
+            background: var(--border);
+        }
+
+        .tl-item {
+            display: grid;
+            grid-template-columns: 120px 1fr;
+            gap: 40px;
+            padding: 32px 0;
+            position: relative;
+        }
+
+        .tl-week {
+            font-family: var(--mono);
+            font-size: 11px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: var(--accent);
+            text-align: right;
+            padding-top: 4px;
+        }
+
+        .tl-content h5 {
+            font-weight: 500;
+            font-size: 16px;
+            margin-bottom: 8px;
+        }
+
+        .tl-content p {
+            font-size: 13px;
+            color: var(--muted);
+            line-height: 1.6;
+        }
+
+        .tl-content::before {
+            content: '';
+            position: absolute;
+            left: 56px;
+            top: 40px;
+            width: 9px;
+            height: 9px;
+            border-radius: 50%;
+            background: var(--bg);
+            border: 2px solid var(--accent);
+        }
+
+        /* SCORE BARS */
+        .score-section {
+            margin: 48px 0;
+        }
+
+        .score-item {
+            margin-bottom: 24px;
+        }
+
+        .score-label {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+
+        .score-label span:first-child {
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .score-label span:last-child {
+            font-family: var(--mono);
+            font-size: 12px;
+            color: var(--accent);
+        }
+
+        .score-bar {
+            height: 4px;
+            background: var(--border);
+            border-radius: 2px;
+            overflow: hidden;
+        }
+
+        .score-fill {
+            height: 100%;
+            border-radius: 2px;
+            background: linear-gradient(90deg, var(--accent2), var(--accent));
+            transition: width 1.5s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+
+        /* PAGE STRUCTURE */
+        .pages-preview {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 20px;
+            margin: 48px 0;
+        }
+
+        .page-card {
+            background: var(--card);
+            border: 1px solid var(--border);
+            padding: 0;
+            overflow: hidden;
+            transition: border-color 0.4s;
+        }
+
+        .page-card:hover {
+            border-color: var(--accent);
+        }
+
+        .page-card-header {
+            padding: 20px 24px;
+            border-bottom: 1px solid var(--border);
+            font-family: var(--mono);
+            font-size: 10px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .page-card-header .pg-num {
+            color: var(--accent);
+        }
+
+        .page-card-body {
+            padding: 24px;
+        }
+
+        .page-card-body h5 {
+            font-weight: 500;
+            margin-bottom: 10px;
+            font-size: 17px;
+        }
+
+        .page-card-body p {
+            font-size: 12px;
+            color: var(--muted);
+            line-height: 1.6;
+        }
+
+        .page-card-body ul {
+            list-style: none;
+            margin-top: 12px;
+        }
+
+        .page-card-body li {
+            font-size: 12px;
+            color: var(--muted);
+            padding: 4px 0;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .page-card-body li::before {
+            content: '→';
+            color: var(--accent);
+            font-size: 10px;
+        }
+
+        /* DIVIDER */
+        .divider {
+            width: 100%;
+            height: 1px;
+            background: var(--border);
+            margin: 0;
+        }
+
+        /* CTA */
+        .cta-section {
+            padding: 160px 40px;
+            text-align: center;
+        }
+
+        .cta-section h2 {
+            font-family: var(--serif);
+            font-size: clamp(32px, 4vw, 60px);
+            font-weight: 400;
+            margin-bottom: 24px;
+        }
+
+        .cta-section p {
+            color: var(--muted);
+            max-width: 500px;
+            margin: 0 auto 40px;
+            font-size: 15px;
+        }
+
+        /* RESPONSIVE */
+        @media (max-width: 768px) {
+            .topbar {
+                padding: 16px 20px;
+            }
+
+            .topbar .phase-nav {
+                display: none;
+            }
+
+            .section,
+            .phase {
+                padding: 60px 20px;
+            }
+
+            .phase-header {
+                grid-template-columns: 1fr;
+                gap: 16px;
+            }
+
+            .phase-num {
+                font-size: 40px;
+            }
+
+            .tl-item {
+                grid-template-columns: 1fr;
+                gap: 12px;
+            }
+
+            .timeline::before {
+                display: none;
+            }
+
+            .tl-content::before {
+                display: none;
+            }
+
+            .audit-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* HORIZONTAL RULE ACCENT */
+        .accent-rule {
+            width: 60px;
+            height: 1px;
+            background: var(--accent);
+            margin: 32px 0;
+        }
+
+        /* INLINE CODE */
+        code {
+            font-family: var(--mono);
+            font-size: 12px;
+            background: rgba(200, 168, 110, 0.1);
+            padding: 2px 8px;
+            border-radius: 2px;
+            color: var(--accent);
+        }
+
+        /* KEY INSIGHT BOX */
+        .insight {
+            border-left: 2px solid var(--accent);
+            padding: 24px 32px;
+            margin: 32px 0;
+            background: rgba(200, 168, 110, 0.03);
+        }
+
+        .insight p {
+            font-size: 15px;
+            color: var(--fg);
+            font-style: italic;
+            font-family: var(--serif);
+        }
+
+        .two-col {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            margin: 48px 0;
+        }
+
+        @media (max-width: 900px) {
+            .two-col {
+                grid-template-columns: 1fr;
+                gap: 32px;
+            }
+        }
+
+        .two-col h4 {
+            font-family: var(--serif);
+            font-size: 22px;
+            margin-bottom: 16px;
+            font-weight: 400;
+        }
+
+        .two-col p {
+            font-size: 14px;
+            color: var(--muted);
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- TOPBAR -->
+    <nav class="topbar">
+        <div class="logo">AK Redesign Plan</div>
+        <div class="phase-nav">
+            <a href="#audit">Audit</a>
+            <a href="#vision">Vision</a>
+            <a href="#phase1">Structure</a>
+            <a href="#phase2">Design</a>
+            <a href="#phase3">Motion</a>
+            <a href="#phase4">Performance</a>
+            <a href="#timeline">Timeline</a>
+        </div>
+    </nav>
+
+    <!-- HERO -->
+    <section class="hero">
+        <span class="hero-number">AK</span>
+        <h1>Redesigning <em>Avinash Kotekar</em> into an award-winning visual experience</h1>
+        <p class="hero-sub">Full Game Plan — Strategy · Design · Technology · Execution</p>
+        <span class="scroll-hint">↓ Scroll to explore</span>
+    </section>
+
+    <!-- ═══════════════════════ AUDIT ═══════════════════════ -->
+    <section class="section" id="audit">
+        <div class="section-label">01 — Current State Audit</div>
+        <h2>What exists today — and <em>what's holding it back</em></h2>
+
+        <p style="color:var(--muted); font-size:15px; max-width:700px; margin-bottom:48px;">
+            The current avinashkotekar.com is built on WordPress with Elementor. It functions, but it doesn't
+            <em>perform</em> — not in speed, not in storytelling, and not in the way it positions Avinash's brand
+            against the caliber of clients he serves (Marriott, Red Bull, JW Marriott, Westin).
+        </p>
+
+        <div class="audit-grid">
+            <div class="audit-card">
+                <div class="issue-type"><span class="dot critical"></span> CRITICAL</div>
+                <h4>WordPress + Elementor Bloat</h4>
+                <p>Heavy page weight, render-blocking scripts, dozens of unused CSS/JS files. Page load exceeds 5s on
+                    3G. No image optimization pipeline — raw JPEGs served at full resolution.</p>
+            </div>
+            <div class="audit-card">
+                <div class="issue-type"><span class="dot critical"></span> CRITICAL</div>
+                <h4>Generic Portfolio Layout</h4>
+                <p>Work is presented in a flat grid with no project storytelling, no case studies, no context. Visitors
+                    see thumbnails but don't understand the craft, process, or brand impact.</p>
+            </div>
+            <div class="audit-card">
+                <div class="issue-type"><span class="dot critical"></span> CRITICAL</div>
+                <h4>Placeholder Testimonials</h4>
+                <p>Fake testimonials with lorem ipsum text from "Alex Johnson, Scrum Master" and "Max Jackson, UI/UX
+                    Designer" — not real clients. This destroys credibility instantly.</p>
+            </div>
+            <div class="audit-card">
+                <div class="issue-type"><span class="dot warn"></span> UX ISSUE</div>
+                <h4>Confusing Navigation</h4>
+                <p>"Work" and "Portfolio" are separate pages with the same content. Redundant nav links, duplicate
+                    menus, and no clear user journey from landing to inquiry.</p>
+            </div>
+            <div class="audit-card">
+                <div class="issue-type"><span class="dot warn"></span> UX ISSUE</div>
+                <h4>No Mobile Optimization</h4>
+                <p>Hamburger menu overlaps content. Images don't lazy-load. Touch targets are too small. No
+                    consideration for mobile-first browsing (60%+ of traffic).</p>
+            </div>
+            <div class="audit-card">
+                <div class="issue-type"><span class="dot info"></span> BRAND</div>
+                <h4>Weak Brand Positioning</h4>
+                <p>No clear value proposition above the fold. The site opens with a logo and slider but doesn't
+                    communicate: who, what, for whom, or why choose Avinash over competitors.</p>
+            </div>
+        </div>
+
+        <div class="insight">
+            <p>"The current site is a brochure. The redesign needs to be an experience — one that makes the visitor feel
+                the quality of Avinash's work before they even see a single photograph."</p>
+        </div>
+    </section>
+
+    <div class="divider"></div>
+
+    <!-- ═══════════════════════ REFERENCE ANALYSIS ═══════════════════════ -->
+    <section class="section" id="vision">
+        <div class="section-label">02 — Reference Analysis & Creative Direction</div>
+        <h2>Learning from <em>YK Produce</em> and Awwwards winners</h2>
+
+        <div class="two-col">
+            <div>
+                <h4>What YK Produce does brilliantly</h4>
+                <p>Cinematic opening with numbered scene counter and full-bleed imagery that transitions with rhythm.
+                    The menu is an experience itself — full-screen overlay with bilingual labels and curved arrow icons.
+                    Video integration feels native, not bolted on. The "Playful Minds" marquee adds kinetic energy. The
+                    showreel modal with custom controls shows extreme attention to detail. The footer has its own video
+                    background. Every pixel is intentional.</p>
+            </div>
+            <div>
+                <h4>What Awwwards photography sites share</h4>
+                <p>Horizontal scroll galleries, parallax depth on images, custom cursors that react to content, smooth
+                    page transitions (barba.js / swup), project pages that tell a story with text-image choreography,
+                    scroll-triggered reveals that create rhythm, dark themes that let photographs breathe, typography as
+                    a design element (not just text), and loading sequences that build anticipation.</p>
+            </div>
+        </div>
+
+        <div class="accent-rule"></div>
+
+        <h4 style="font-family:var(--serif); font-size:22px; margin-bottom:24px;">The Creative Direction for Avinash
+            Kotekar</h4>
+
+        <table class="compare-table">
+            <thead>
+                <tr>
+                    <th>Element</th>
+                    <th>Current</th>
+                    <th>Redesigned</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>First Impression</td>
+                    <td class="old">Generic slider with logo overlay</td>
+                    <td class="new">Cinematic fullscreen hero with a single stunning image, grain texture, and a reveal
+                        animation that peels back like a camera shutter</td>
+                </tr>
+                <tr>
+                    <td>Navigation</td>
+                    <td class="old">Standard horizontal nav + hamburger</td>
+                    <td class="new">Minimal top bar (logo + menu icon) → fullscreen overlay menu with staggered text
+                        animation, category filters, and a preview image that follows the cursor</td>
+                </tr>
+                <tr>
+                    <td>Portfolio</td>
+                    <td class="old">Flat thumbnail grid, no context</td>
+                    <td class="new">Horizontal-scroll featured projects with parallax depth → each project opens as a
+                        full case study with behind-the-scenes, brand context, and image sequences</td>
+                </tr>
+                <tr>
+                    <td>About</td>
+                    <td class="old">Wall of text with one photo</td>
+                    <td class="new">Split-screen layout: portrait photo on left with parallax, staggered text reveals on
+                        right. Key stats animate in as counters (9+ years, 50+ brands, 6 categories)</td>
+                </tr>
+                <tr>
+                    <td>Video</td>
+                    <td class="old">YouTube embeds in a grid</td>
+                    <td class="new">Inline video player with custom controls, showreel as a full-screen modal experience
+                        with sound toggle, or auto-playing background loops in hero sections</td>
+                </tr>
+                <tr>
+                    <td>Contact</td>
+                    <td class="old">Basic form</td>
+                    <td class="new">Immersive contact section with large typography CTA, animated text, and a refined
+                        form with micro-interactions on each field</td>
+                </tr>
+                <tr>
+                    <td>Overall Feel</td>
+                    <td class="old">Template website</td>
+                    <td class="new">Luxury editorial — the website itself becomes a portfolio piece</td>
+                </tr>
+            </tbody>
+        </table>
+    </section>
+
+    <div class="divider"></div>
+
+    <!-- ═══════════════════════ PHASE 1: STRUCTURE ═══════════════════════ -->
+    <section class="phase" id="phase1">
+        <div class="phase-header">
+            <div class="phase-num">01</div>
+            <div class="phase-meta">
+                <h3>Information Architecture & Site Structure</h3>
+                <p>Streamline the sitemap, define the user journey, and build a content strategy that positions Avinash
+                    as a premium creative director — not just a photographer.</p>
+            </div>
+        </div>
+
+        <div class="pages-preview">
+            <div class="page-card">
+                <div class="page-card-header"><span>Home</span><span class="pg-num">01</span></div>
+                <div class="page-card-body">
+                    <h5>The Cinematic Landing</h5>
+                    <p>A single-scroll experience that tells the full story.</p>
+                    <ul>
+                        <li>Fullscreen hero with shutter-reveal animation</li>
+                        <li>Horizontal-scroll featured projects (5-6 hero projects)</li>
+                        <li>Scrolling text marquee with categories</li>
+                        <li>Selected clients strip with subtle hover effects</li>
+                        <li>About preview with parallax portrait</li>
+                        <li>Showreel embed with custom player</li>
+                        <li>Contact CTA with large serif typography</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="page-card">
+                <div class="page-card-header"><span>Work</span><span class="pg-num">02</span></div>
+                <div class="page-card-body">
+                    <h5>The Portfolio Index</h5>
+                    <p>Filterable project grid with category-based exploration.</p>
+                    <ul>
+                        <li>Category filter bar (Food, Product, Architecture, Lifestyle, Jewellery, Ad Campaign)</li>
+                        <li>Masonry grid with hover-expand previews</li>
+                        <li>Custom cursor changes to "View" on hover</li>
+                        <li>Smooth FLIP animations on filter change</li>
+                        <li>Each card links to full case study page</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="page-card">
+                <div class="page-card-header"><span>Project</span><span class="pg-num">03</span></div>
+                <div class="page-card-body">
+                    <h5>The Case Study Page</h5>
+                    <p>Each project becomes a story, not just images.</p>
+                    <ul>
+                        <li>Full-bleed hero image with project title overlay</li>
+                        <li>Project metadata: client, category, year, scope</li>
+                        <li>Text blocks explaining concept & approach</li>
+                        <li>Image sequences with scroll-triggered reveals</li>
+                        <li>Before/after or behind-the-scenes if available</li>
+                        <li>"Next project" transition at bottom</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="page-card">
+                <div class="page-card-header"><span>About</span><span class="pg-num">04</span></div>
+                <div class="page-card-body">
+                    <h5>The Director's Story</h5>
+                    <p>Position Avinash as a creative director, not just a photographer.</p>
+                    <ul>
+                        <li>Split-screen hero: portrait + intro text</li>
+                        <li>Animated stat counters (years, brands, categories)</li>
+                        <li>Philosophy section with pull-quote typography</li>
+                        <li>Equipment & process section</li>
+                        <li>Real client testimonials (replace fakes)</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="page-card">
+                <div class="page-card-header"><span>Contact</span><span class="pg-num">05</span></div>
+                <div class="page-card-body">
+                    <h5>The Inquiry Experience</h5>
+                    <p>Make reaching out feel premium and intentional.</p>
+                    <ul>
+                        <li>Large serif "Let's Create" heading</li>
+                        <li>Multi-step form: project type → budget → timeline</li>
+                        <li>Micro-interactions on input focus</li>
+                        <li>WhatsApp & email as alternatives</li>
+                        <li>Social links with hover-reveal animations</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="divider"></div>
+
+    <!-- ═══════════════════════ PHASE 2: DESIGN ═══════════════════════ -->
+    <section class="phase" id="phase2">
+        <div class="phase-header">
+            <div class="phase-num">02</div>
+            <div class="phase-meta">
+                <h3>Visual Design System & Identity</h3>
+                <p>Build a cohesive design language that feels like the luxury brands Avinash works with — dark,
+                    cinematic, and editorially refined.</p>
+            </div>
+        </div>
+
+        <div class="feature-grid">
+            <div class="feature">
+                <span class="feature-icon">◆</span>
+                <h5>Dark Cinematic Theme</h5>
+                <p>Deep blacks (#0a0a0a) with warm cream text (#f0ece4) and gold accents (#c8a86e). Photographs become
+                    the light source — the UI stays in shadow. Film grain texture overlay across the entire site.</p>
+            </div>
+            <div class="feature">
+                <span class="feature-icon">Aa</span>
+                <h5>Typography Pairing</h5>
+                <p>Display: Editorial New or Cormorant Garamond (serif, elegant). Body: Satoshi or General Sans
+                    (geometric, clean). Mono: JetBrains Mono for labels and metadata. This creates luxury-editorial
+                    tension.</p>
+            </div>
+            <div class="feature">
+                <span class="feature-icon">▣</span>
+                <h5>Layout Philosophy</h5>
+                <p>Asymmetric grids. Overlapping elements. Generous whitespace (200px+ section padding). Text layered
+                    over images with blend modes. Broken grid compositions that feel editorial, not chaotic.</p>
+            </div>
+            <div class="feature">
+                <span class="feature-icon">◎</span>
+                <h5>Custom Cursor</h5>
+                <p>Default cursor replaced with a small dot + outer ring. On project hovers, it morphs into "View
+                    Project" text circle. On videos, it becomes a play icon. On draggable areas, it shows arrows.</p>
+            </div>
+            <div class="feature">
+                <span class="feature-icon">⬡</span>
+                <h5>Image Treatment</h5>
+                <p>Photographs are always edge-to-edge or with intentional asymmetric margins. Hover states add a subtle
+                    brightness shift + scale. Images load with a clip-path wipe animation revealing them directionally.
+                </p>
+            </div>
+            <div class="feature">
+                <span class="feature-icon">≡</span>
+                <h5>Fullscreen Menu</h5>
+                <p>Menu icon triggers a fullscreen overlay with dark background. Links animate in with staggered
+                    vertical slides. A preview image follows the cursor, showing a featured image from each section on
+                    hover.</p>
+            </div>
+        </div>
+    </section>
+
+    <div class="divider"></div>
+
+    <!-- ═══════════════════════ PHASE 3: MOTION ═══════════════════════ -->
+    <section class="phase" id="phase3">
+        <div class="phase-header">
+            <div class="phase-num">03</div>
+            <div class="phase-meta">
+                <h3>Motion Design & Interaction Layer</h3>
+                <p>This is the layer that separates a good portfolio from an Awwwards contender. Every scroll, hover,
+                    and page transition should feel choreographed.</p>
+            </div>
+        </div>
+
+        <div class="insight">
+            <p>"Motion should feel like the website is breathing — alive but not frantic. Like watching a perfectly
+                timed camera pan."</p>
+        </div>
+
+        <div class="feature-grid">
+            <div class="feature">
+                <span class="feature-icon">▶</span>
+                <h5>Page Load Sequence</h5>
+                <p>A loading counter (00→100) on a black screen, then a camera-shutter clip-path animation reveals the
+                    hero image. Logo and nav fade in after. Total sequence: 2.5 seconds. This builds anticipation.</p>
+            </div>
+            <div class="feature">
+                <span class="feature-icon">↕</span>
+                <h5>Scroll-Triggered Reveals</h5>
+                <p>Text blocks reveal with translateY(40px) → 0 + opacity fade. Images reveal with clip-path wipes
+                    (left-to-right or bottom-to-top). Staggered delays create rhythm — each element 0.1s after the
+                    previous.</p>
+            </div>
+            <div class="feature">
+                <span class="feature-icon">↔</span>
+                <h5>Horizontal Scroll Gallery</h5>
+                <p>Featured projects section on the homepage uses GSAP ScrollTrigger to convert vertical scroll into
+                    horizontal movement. Each project card has parallax depth — images move slower than text.</p>
+            </div>
+            <div class="feature">
+                <span class="feature-icon">⇄</span>
+                <h5>Page Transitions</h5>
+                <p>Barba.js or Swup for seamless page transitions. A dark overlay slides up, content fades out, new page
+                    content fades in. The hero image of the next project could scale up from the card position (FLIP
+                    animation).</p>
+            </div>
+            <div class="feature">
+                <span class="feature-icon">◉</span>
+                <h5>Magnetic Buttons</h5>
+                <p>CTA buttons have a magnetic pull effect — when the cursor approaches, the button slightly moves
+                    toward the cursor. On hover, the background fills with a wipe animation. Satisfying
+                    micro-interaction.</p>
+            </div>
+            <div class="feature">
+                <span class="feature-icon">∞</span>
+                <h5>Infinite Marquee</h5>
+                <p>A CSS-only infinite scrolling marquee strip with category names (FOOD · PRODUCT · ARCHITECTURE ·
+                    LIFESTYLE · JEWELLERY) in large serif type. Pauses on hover. Separates sections with kinetic energy.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <div class="divider"></div>
+
+    <!-- ═══════════════════════ PHASE 4: PERFORMANCE ═══════════════════════ -->
+    <section class="phase" id="phase4">
+        <div class="phase-header">
+            <div class="phase-num">04</div>
+            <div class="phase-meta">
+                <h3>Performance & Technical Architecture</h3>
+                <p>An award-winning site that loads slowly is just a pretty failure. Performance is not a feature — it's
+                    the foundation.</p>
+            </div>
+        </div>
+
+        <div class="section-label" style="margin-top:40px;">Recommended Tech Stack</div>
+        <div class="stack-row">
+            <span class="stack-tag primary">Next.js 15 (App Router)</span>
+            <span class="stack-tag primary">React 19</span>
+            <span class="stack-tag primary">GSAP + ScrollTrigger</span>
+            <span class="stack-tag">Barba.js / Swup</span>
+            <span class="stack-tag">Lenis (smooth scroll)</span>
+            <span class="stack-tag">Framer Motion</span>
+            <span class="stack-tag">Tailwind CSS</span>
+            <span class="stack-tag">Sanity CMS</span>
+            <span class="stack-tag">Vercel (hosting)</span>
+            <span class="stack-tag">Cloudinary (images)</span>
+            <span class="stack-tag">Sharp (image processing)</span>
+            <span class="stack-tag">Three.js (optional effects)</span>
+        </div>
+
+        <div class="accent-rule"></div>
+
+        <div class="section-label">Performance Targets</div>
+        <div class="score-section">
+            <div class="score-item">
+                <div class="score-label"><span>Lighthouse Performance</span><span>95+</span></div>
+                <div class="score-bar">
+                    <div class="score-fill" style="width:95%"></div>
+                </div>
+            </div>
+            <div class="score-item">
+                <div class="score-label"><span>Largest Contentful Paint (LCP)</span><span>&lt; 1.5s</span></div>
+                <div class="score-bar">
+                    <div class="score-fill" style="width:90%"></div>
+                </div>
+            </div>
+            <div class="score-item">
+                <div class="score-label"><span>Cumulative Layout Shift (CLS)</span><span>&lt; 0.05</span></div>
+                <div class="score-bar">
+                    <div class="score-fill" style="width:97%"></div>
+                </div>
+            </div>
+            <div class="score-item">
+                <div class="score-label"><span>First Input Delay (FID)</span><span>&lt; 50ms</span></div>
+                <div class="score-bar">
+                    <div class="score-fill" style="width:96%"></div>
+                </div>
+            </div>
+            <div class="score-item">
+                <div class="score-label"><span>Total Page Weight (initial)</span><span>&lt; 800KB</span></div>
+                <div class="score-bar">
+                    <div class="score-fill" style="width:85%"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="feature-grid" style="margin-top:48px;">
+            <div class="feature">
+                <span class="feature-icon">⚡</span>
+                <h5>Image Pipeline</h5>
+                <p>All images served via Cloudinary or Next.js Image with automatic WebP/AVIF conversion, responsive
+                    srcset, blur-up placeholders (LQIP), and lazy loading. Hero images preloaded.</p>
+            </div>
+            <div class="feature">
+                <span class="feature-icon">📦</span>
+                <h5>Code Splitting</h5>
+                <p>GSAP and animation libraries loaded only on pages that need them. Dynamic imports for heavy
+                    components. Intersection Observer triggers animation code only when sections enter viewport.</p>
+            </div>
+            <div class="feature">
+                <span class="feature-icon">🔍</span>
+                <h5>SEO Architecture</h5>
+                <p>Server-rendered pages with Next.js for perfect SEO. Structured data (JSON-LD) for photographer
+                    schema. Dynamic OG images per project. Sitemap auto-generation. Alt text on every image.</p>
+            </div>
+            <div class="feature">
+                <span class="feature-icon">🎬</span>
+                <h5>Video Optimization</h5>
+                <p>Self-hosted MP4 with poster frames. Videos compressed to H.265/VP9 at 720p max for web. Intersection
+                    Observer to play/pause based on visibility. No YouTube embeds — custom player only.</p>
+            </div>
+        </div>
+    </section>
+
+    <div class="divider"></div>
+
+    <!-- ═══════════════════════ UNIQUE DIFFERENTIATORS ═══════════════════════ -->
+    <section class="section">
+        <div class="section-label">05 — What Makes This Unique</div>
+        <h2>The <em>award-winning</em> differentiators</h2>
+
+        <div class="feature-grid">
+            <div class="feature">
+                <span class="feature-icon">📷</span>
+                <h5>Camera Shutter Loading</h5>
+                <p>The initial page load mimics a camera shutter — black blades close, a counter ticks, then the blades
+                    open to reveal the hero. This is the signature moment. Nobody else has this.</p>
+            </div>
+            <div class="feature">
+                <span class="feature-icon">🖱️</span>
+                <h5>Cursor as Viewfinder</h5>
+                <p>The custom cursor is styled as a camera viewfinder crosshair. On image hovers, it adds focus
+                    brackets. On drag areas, it shows film-strip arrows. The cursor IS the brand.</p>
+            </div>
+            <div class="feature">
+                <span class="feature-icon">🎞️</span>
+                <h5>Film Strip Project Navigation</h5>
+                <p>At the bottom of each case study, the "next project" section shows a horizontal film-strip with
+                    perforations and frame numbers, scrolling to reveal the next project's images.</p>
+            </div>
+            <div class="feature">
+                <span class="feature-icon">🌑</span>
+                <h5>Darkroom Mode Toggle</h5>
+                <p>A subtle toggle that shifts the entire site to red safelight tones — like being in a darkroom. An
+                    easter egg for photography enthusiasts. Unique, memorable, shareable.</p>
+            </div>
+            <div class="feature">
+                <span class="feature-icon">📐</span>
+                <h5>EXIF Data Reveals</h5>
+                <p>On project pages, hovering over a photograph reveals its EXIF metadata (camera, lens, aperture, ISO)
+                    in a subtle overlay. This speaks to photo professionals and signals technical mastery.</p>
+            </div>
+            <div class="feature">
+                <span class="feature-icon">🎵</span>
+                <h5>Optional Ambient Audio</h5>
+                <p>A sound toggle in the corner. When on, a subtle ambient track plays (like restaurant ambiance for
+                    food shoots, nature sounds for lifestyle). Opt-in only. Immersive, never intrusive.</p>
+            </div>
+        </div>
+    </section>
+
+    <div class="divider"></div>
+
+    <!-- ═══════════════════════ TIMELINE ═══════════════════════ -->
+    <section class="section" id="timeline">
+        <div class="section-label">06 — Execution Timeline</div>
+        <h2>From concept to <em>launch</em></h2>
+
+        <div class="timeline">
+            <div class="tl-item">
+                <div class="tl-week">Week 1–2</div>
+                <div class="tl-content">
+                    <h5>Discovery & Content Strategy</h5>
+                    <p>Audit all existing photography assets. Select 8-10 hero projects for case studies. Write project
+                        narratives and brand copy. Gather real client testimonials. Define the visual identity system
+                        (colors, fonts, spacing scale).</p>
+                </div>
+            </div>
+            <div class="tl-item">
+                <div class="tl-week">Week 2–3</div>
+                <div class="tl-content">
+                    <h5>UI/UX Design in Figma</h5>
+                    <p>Design all 5 page templates in Figma. Create a component library. Prototype key interactions
+                        (menu, horizontal scroll, page transitions). Mobile-first responsive designs. Design review and
+                        iteration cycle.</p>
+                </div>
+            </div>
+            <div class="tl-item">
+                <div class="tl-week">Week 3–5</div>
+                <div class="tl-content">
+                    <h5>Core Development</h5>
+                    <p>Set up Next.js project with Tailwind and Sanity CMS. Build the component library. Implement page
+                        layouts, responsive grid, navigation, and routing. Set up Cloudinary image pipeline and build
+                        the portfolio data model.</p>
+                </div>
+            </div>
+            <div class="tl-item">
+                <div class="tl-week">Week 5–7</div>
+                <div class="tl-content">
+                    <h5>Animation & Interaction Layer</h5>
+                    <p>Integrate GSAP + ScrollTrigger. Build the camera-shutter loading sequence. Implement horizontal
+                        scroll gallery, page transitions (Barba.js), custom cursor, scroll reveals, magnetic buttons,
+                        marquee strip, and all micro-interactions.</p>
+                </div>
+            </div>
+            <div class="tl-item">
+                <div class="tl-week">Week 7–8</div>
+                <div class="tl-content">
+                    <h5>Performance & Polish</h5>
+                    <p>Lighthouse audit and optimization pass. Image compression pipeline finalization. Code splitting
+                        and lazy loading. Cross-browser testing (Chrome, Safari, Firefox, Edge). Mobile device testing.
+                        Accessibility audit (WCAG 2.1 AA).</p>
+                </div>
+            </div>
+            <div class="tl-item">
+                <div class="tl-week">Week 8–9</div>
+                <div class="tl-content">
+                    <h5>Content Population & QA</h5>
+                    <p>Upload all project images and content to Sanity CMS. Final copy editing pass. SEO metadata and OG
+                        images. Complete QA across devices. Soft launch for feedback. Final adjustments.</p>
+                </div>
+            </div>
+            <div class="tl-item">
+                <div class="tl-week">Week 9–10</div>
+                <div class="tl-content">
+                    <h5>Launch & Submission</h5>
+                    <p>DNS migration and production deployment on Vercel. 301 redirects from old WordPress URLs. Google
+                        Analytics 4 + Search Console setup. Submit to Awwwards, CSS Design Awards, FWA. Social media
+                        launch campaign.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="divider"></div>
+
+    <!-- ═══════════════════════ WHY THIS WORKS ═══════════════════════ -->
+    <section class="section">
+        <div class="section-label">07 — Why This Wins Awards</div>
+        <h2>The <em>Awwwards criteria</em> mapped to our approach</h2>
+
+        <table class="compare-table">
+            <thead>
+                <tr>
+                    <th>Awwwards Criteria</th>
+                    <th>How We Score</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Design</td>
+                    <td class="new">Dark cinematic theme, editorial typography, custom cursor, camera-shutter loading,
+                        film-strip navigation — every detail is bespoke and rooted in photography craft</td>
+                </tr>
+                <tr>
+                    <td>Usability</td>
+                    <td class="new">Clear 5-page architecture, intuitive category filtering, mobile-first responsive
+                        design, fast load times, accessible to screen readers, keyboard navigable</td>
+                </tr>
+                <tr>
+                    <td>Creativity</td>
+                    <td class="new">Camera viewfinder cursor, darkroom easter egg, EXIF metadata reveals, shutter-blade
+                        page transitions — every interaction ties back to the photography metaphor</td>
+                </tr>
+                <tr>
+                    <td>Content</td>
+                    <td class="new">Case study storytelling, real client testimonials, brand context for each project,
+                        behind-the-scenes process documentation — this is a portfolio that sells</td>
+                </tr>
+                <tr>
+                    <td>Developer</td>
+                    <td class="new">Next.js SSR, GSAP with ScrollTrigger, custom WebGL shaders (optional), performant
+                        animation with requestAnimationFrame, image pipeline with AVIF/WebP, 95+ Lighthouse</td>
+                </tr>
+            </tbody>
+        </table>
+    </section>
+
+    <!-- CTA -->
+    <section class="cta-section">
+        <h2 style="font-family:var(--serif); font-weight:400;">Ready to <em
+                style="color:var(--accent); font-style:italic;">build this</em>?</h2>
+        <p>This game plan transforms avinashkotekar.com from a WordPress template into a portfolio experience that
+            positions Avinash alongside the world's best visual creators.</p>
+        <div
+            style="font-family:var(--mono); font-size:11px; letter-spacing:3px; text-transform:uppercase; color:var(--muted); margin-top:40px;">
+            Prepared March 2026 — Let's make it happen.
+        </div>
+    </section>
+
+    <div style="height:80px;"></div>
+
+</body>
+
+</html>
