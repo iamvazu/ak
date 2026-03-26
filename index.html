@@ -1301,38 +1301,191 @@
 
     <div class="divider"></div>
 
-    <!-- ═══════════════════════ BUDGET & HIRING ═══════════════════════ -->
+    <!-- ═══════════════════════ BUDGET ESTIMATE ═══════════════════════ -->
     <section class="section" id="budget">
-        <div class="section-label">07 — Budget & Hiring</div>
-        <h2>Realistic costs & <em>finding the right dev</em></h2>
+        <div class="section-label">07 — Budget Estimate</div>
+        <h2>Costs breakdown & <em>hosting</em></h2>
 
-        <div class="two-col" style="margin-top: 0;">
-            <div>
-                <h4>Cost Breakdown</h4>
-                <p style="margin-bottom: 16px;">
-                    <strong>The realistic range is ₹2.5L to ₹4.5L</strong> (roughly $3,000–$5,400) for the full award-winning build with an India-based freelancer.
-                </p>
-                <p style="margin-bottom: 16px;">
-                    The biggest cost driver is the animation layer — the GSAP ScrollTrigger work, custom cursor, camera-shutter loader, page transitions, and parallax effects. That alone can be 25-30% of the total budget.
-                </p>
-                <div class="insight" style="margin: 24px 0;">
-                    <p>"One important cost people forget: the Awwwards submission fee itself. The standard review costs $69 (takes 2-3 weeks), while the speed review is $249 (faster jury feedback). If you're serious about winning, the speed review is worth it."</p>
-                </div>
+        <!-- Top Stats Grid -->
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 24px; margin-bottom: 64px;">
+            <div style="background: var(--card); padding: 32px; border: 1px solid var(--border); border-radius: 2px;">
+                <div style="font-family: var(--sans); font-size: 14px; color: var(--muted); margin-bottom: 8px;">Budget estimate</div>
+                <div style="font-family: var(--sans); font-size: 40px; color: var(--fg); font-weight: 500;">₹2.5–4.5L</div>
             </div>
-            <div>
-                <h4>Monthly Running Costs</h4>
-                <p style="margin-bottom: 32px;">
-                    <strong>Nearly zero.</strong> Vercel's free tier handles most portfolio-level traffic, Sanity CMS free tier gives you 200K API requests/month (way more than needed), and Cloudinary's free plan covers your image transformations. You'd essentially just pay for domain renewal.
-                </p>
-                
-                <h4>How to find the right developer</h4>
-                <p style="margin-bottom: 16px;">
-                    Look for someone on Upwork or Twitter/X who has <strong style="color:var(--accent);">GSAP + Next.js</strong> in their portfolio and ideally has worked on sites that have been featured on Awwwards or CSS Design Awards.
-                </p>
-                <p>
-                    On Upwork, filter for developers with a 90%+ job success score and at least 1,000 hours logged — this signals reliability. <em>Always ask to see their most animation-heavy project before hiring.</em>
-                </p>
+            <div style="background: var(--card); padding: 32px; border: 1px solid var(--border); border-radius: 2px;">
+                <div style="font-family: var(--sans); font-size: 14px; color: var(--muted); margin-bottom: 8px;">Timeline</div>
+                <div style="font-family: var(--sans); font-size: 40px; color: var(--fg); font-weight: 500;">8–10 wks</div>
             </div>
+            <div style="background: var(--card); padding: 32px; border: 1px solid var(--border); border-radius: 2px;">
+                <div style="font-family: var(--sans); font-size: 14px; color: var(--muted); margin-bottom: 8px;">Monthly running</div>
+                <div style="font-family: var(--sans); font-size: 40px; color: var(--fg); font-weight: 500;">₹0–2K</div>
+            </div>
+        </div>
+
+        <!-- Bar Chart -->
+        <div style="display: flex; align-items: flex-end; gap: 16px; height: 320px; padding: 24px 0 0 50px; border-left: 1px solid var(--border); border-bottom: 1px solid var(--border); margin-bottom: 80px; position: relative;">
+            <!-- Y Axis labels -->
+            <div style="position: absolute; left: -50px; top: -10px; height: 100%; display: flex; flex-direction: column; justify-content: space-between; font-family: var(--mono); font-size: 10px; color: var(--muted); width: 40px; text-align: right;">
+                <span>₹140K</span>
+                <span>₹120K</span>
+                <span>₹100K</span>
+                <span>₹80K</span>
+                <span>₹60K</span>
+                <span>₹40K</span>
+                <span>₹20K</span>
+                <span>₹0K</span>
+            </div>
+            <!-- Horizontal grid lines -->
+            <div style="position: absolute; left: 0; right: 0; top: 0; bottom: 0; display: flex; flex-direction: column; justify-content: space-between; pointer-events: none;">
+                <div style="height: 1px; background: var(--border); opacity: 0.5;"></div>
+                <div style="height: 1px; background: var(--border); opacity: 0.5;"></div>
+                <div style="height: 1px; background: var(--border); opacity: 0.5;"></div>
+                <div style="height: 1px; background: var(--border); opacity: 0.5;"></div>
+                <div style="height: 1px; background: var(--border); opacity: 0.5;"></div>
+                <div style="height: 1px; background: var(--border); opacity: 0.5;"></div>
+                <div style="height: 1px; background: var(--border); opacity: 0.5;"></div>
+                <div style="height: 1px; background: transparent;"></div>
+            </div>
+
+            <!-- Design & UX -->
+            <div style="flex: 1; display: flex; align-items: flex-end; gap: 4px; justify-content: center; z-index: 1; position: relative; height: 100%;" title="Design & UX | High estimate: ₹70K">
+                <div style="width: 40%; background: #c3c0f9; height: 28%; border-radius: 4px 4px 0 0; transition: height 0.3s ease;"></div>
+                <div style="width: 40%; background: #a59af5; height: 50%; border-radius: 4px 4px 0 0; transition: height 0.3s ease;"></div>
+                <div style="position: absolute; bottom: -30px; font-family: var(--sans); font-size: 11px; color: var(--muted); text-align: center; width: 100%;">Design & UX</div>
+            </div>
+            
+            <!-- Core dev -->
+            <div style="flex: 1; display: flex; align-items: flex-end; gap: 4px; justify-content: center; z-index: 1; position: relative; height: 100%;" title="Core dev | High estimate: ₹140K">
+                <div style="width: 40%; background: #9be5c4; height: 57%; border-radius: 4px 4px 0 0; transition: height 0.3s ease;"></div>
+                <div style="width: 40%; background: #55cba5; height: 100%; border-radius: 4px 4px 0 0; transition: height 0.3s ease;"></div>
+                <div style="position: absolute; bottom: -30px; font-family: var(--sans); font-size: 11px; color: var(--muted); text-align: center; width: 100%;">Core dev</div>
+            </div>
+
+            <!-- Animations -->
+            <div style="flex: 1; display: flex; align-items: flex-end; gap: 4px; justify-content: center; z-index: 1; position: relative; height: 100%;" title="Animations | High estimate: ₹100K">
+                <div style="width: 40%; background: #f6c4b2; height: 35%; border-radius: 4px 4px 0 0; transition: height 0.3s ease;"></div>
+                <div style="width: 40%; background: #f29a7c; height: 71%; border-radius: 4px 4px 0 0; transition: height 0.3s ease;"></div>
+                <div style="position: absolute; bottom: -30px; font-family: var(--sans); font-size: 11px; color: var(--muted); text-align: center; width: 100%;">Animations</div>
+            </div>
+
+            <!-- CMS + Content -->
+            <div style="flex: 1; display: flex; align-items: flex-end; gap: 4px; justify-content: center; z-index: 1; position: relative; height: 100%;" title="CMS + content | High estimate: ₹60K">
+                <div style="width: 40%; background: #b6d5f7; height: 21%; border-radius: 4px 4px 0 0; transition: height 0.3s ease;"></div>
+                <div style="width: 40%; background: #81b9f3; height: 42%; border-radius: 4px 4px 0 0; transition: height 0.3s ease;"></div>
+                <div style="position: absolute; bottom: -30px; font-family: var(--sans); font-size: 11px; color: var(--muted); text-align: center; width: 100%;">CMS + content</div>
+            </div>
+
+            <!-- QA & Launch -->
+            <div style="flex: 1; display: flex; align-items: flex-end; gap: 4px; justify-content: center; z-index: 1; position: relative; height: 100%;" title="QA & launch | High estimate: ₹40K">
+                <div style="width: 40%; background: #fbd17e; height: 14%; border-radius: 4px 4px 0 0; transition: height 0.3s ease;"></div>
+                <div style="width: 40%; background: #eab034; height: 28%; border-radius: 4px 4px 0 0; transition: height 0.3s ease;"></div>
+                <div style="position: absolute; bottom: -30px; font-family: var(--sans); font-size: 11px; color: var(--muted); text-align: center; width: 100%;">QA & launch</div>
+            </div>
+
+            <!-- Awwwards -->
+            <div style="flex: 1; display: flex; align-items: flex-end; gap: 4px; justify-content: center; z-index: 1; position: relative; height: 100%;" title="Awwwards | High estimate: ₹21K">
+                <div style="width: 40%; background: #dedddb; height: 4%; border-radius: 4px 4px 0 0; transition: height 0.3s ease;"></div>
+                <div style="width: 40%; background: #b8b7b3; height: 15%; border-radius: 4px 4px 0 0; transition: height 0.3s ease;"></div>
+                <div style="position: absolute; bottom: -30px; font-family: var(--sans); font-size: 11px; color: var(--muted); text-align: center; width: 100%;">Awwwards</div>
+            </div>
+        </div>
+
+        <h4 style="font-family: var(--sans); font-size: 20px; font-weight: 500; margin-bottom: 24px;">One-time costs breakdown</h4>
+        <div style="overflow-x: auto;">
+            <table class="compare-table" style="margin-top: 0; min-width: 600px;">
+                <thead>
+                    <tr>
+                        <th style="color: var(--fg);">Phase</th>
+                        <th style="color: var(--fg);">What it covers</th>
+                        <th style="color: var(--fg); text-align: right;">Low</th>
+                        <th style="color: var(--fg); text-align: right;">High</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td style="font-weight: 500; color: var(--fg);">Design & UX</td>
+                        <td style="color: var(--muted); font-weight: normal;">Figma designs, component library, prototyping, responsive layouts</td>
+                        <td style="color: var(--fg); font-weight: 500; text-align: right;">₹40K</td>
+                        <td style="color: var(--fg); font-weight: 500; text-align: right;">₹70K</td>
+                    </tr>
+                    <tr>
+                        <td style="font-weight: 500; color: var(--fg);">Core dev</td>
+                        <td style="color: var(--muted); font-weight: normal;">Next.js setup, pages, routing, responsive build, image pipeline, SEO</td>
+                        <td style="color: var(--fg); font-weight: 500; text-align: right;">₹80K</td>
+                        <td style="color: var(--fg); font-weight: 500; text-align: right;">₹1.4L</td>
+                    </tr>
+                    <tr>
+                        <td style="font-weight: 500; color: var(--fg);">Animations</td>
+                        <td style="color: var(--muted); font-weight: normal;">GSAP ScrollTrigger, page transitions, custom cursor, shutter loader, marquee, parallax</td>
+                        <td style="color: var(--fg); font-weight: 500; text-align: right;">₹50K</td>
+                        <td style="color: var(--fg); font-weight: 500; text-align: right;">₹1L</td>
+                    </tr>
+                    <tr>
+                        <td style="font-weight: 500; color: var(--fg);">CMS + content</td>
+                        <td style="color: var(--muted); font-weight: normal;">Sanity schema, content modeling, image upload, case study templates</td>
+                        <td style="color: var(--fg); font-weight: 500; text-align: right;">₹30K</td>
+                        <td style="color: var(--fg); font-weight: 500; text-align: right;">₹60K</td>
+                    </tr>
+                    <tr>
+                        <td style="font-weight: 500; color: var(--fg);">QA & launch</td>
+                        <td style="color: var(--muted); font-weight: normal;">Cross-browser, mobile testing, Lighthouse tuning, DNS migration, 301 redirects</td>
+                        <td style="color: var(--fg); font-weight: 500; text-align: right;">₹20K</td>
+                        <td style="color: var(--fg); font-weight: 500; text-align: right;">₹40K</td>
+                    </tr>
+                    <tr>
+                        <td style="font-weight: 500; color: var(--fg);">Awwwards</td>
+                        <td style="color: var(--muted); font-weight: normal;">Submission fee ($69 standard / $249 speed review)</td>
+                        <td style="color: var(--fg); font-weight: 500; text-align: right;">₹5.8K</td>
+                        <td style="color: var(--fg); font-weight: 500; text-align: right;">₹21K</td>
+                    </tr>
+                    <tr style="border-top: 1px solid var(--border);">
+                        <td style="font-weight: 500; color: var(--fg); border-bottom: none; padding-top: 24px;">Total estimate</td>
+                        <td style="border-bottom: none; padding-top: 24px;"></td>
+                        <td style="color: var(--fg); font-weight: 500; border-bottom: none; padding-top: 24px; text-align: right;">₹2.25L</td>
+                        <td style="color: var(--fg); font-weight: 500; border-bottom: none; padding-top: 24px; text-align: right;">₹4.31L</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <h4 style="font-family: var(--sans); font-size: 20px; font-weight: 500; margin: 64px 0 24px 0;">Monthly running costs</h4>
+        <div style="overflow-x: auto;">
+            <table class="compare-table" style="margin-top: 0; min-width: 600px;">
+                <thead>
+                    <tr>
+                        <th style="color: var(--fg);">Service</th>
+                        <th style="color: var(--fg);">Plan</th>
+                        <th style="color: var(--fg); text-align: right;">Monthly</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td style="font-weight: 500; color: var(--fg);">Vercel hosting</td>
+                        <td style="color: var(--muted); font-weight: normal;">Hobby (free) or Pro ($20/mo)</td>
+                        <td style="color: var(--fg); font-weight: 500; text-align: right;">₹0–1.7K</td>
+                    </tr>
+                    <tr>
+                        <td style="font-weight: 500; color: var(--fg);">Sanity CMS</td>
+                        <td style="color: var(--muted); font-weight: normal;">Free tier (more than enough for a portfolio)</td>
+                        <td style="color: var(--fg); font-weight: 500; text-align: right;">₹0</td>
+                    </tr>
+                    <tr>
+                        <td style="font-weight: 500; color: var(--fg);">Cloudinary</td>
+                        <td style="color: var(--muted); font-weight: normal;">Free tier (25 credits/mo — ~50-80 images)</td>
+                        <td style="color: var(--fg); font-weight: 500; text-align: right;">₹0</td>
+                    </tr>
+                    <tr>
+                        <td style="font-weight: 500; color: var(--fg);">Domain</td>
+                        <td style="color: var(--muted); font-weight: normal;">avinashkotekar.com renewal</td>
+                        <td style="color: var(--fg); font-weight: 500; text-align: right;">~₹100</td>
+                    </tr>
+                    <tr>
+                        <td style="font-weight: 500; color: var(--fg); border-bottom: none; padding-top: 24px;">Total monthly</td>
+                        <td style="border-bottom: none; padding-top: 24px;"></td>
+                        <td style="color: var(--fg); font-weight: 500; border-bottom: none; padding-top: 24px; text-align: right;">₹100–1.8K</td>
+                    </tr>
+                </tbody>
+            </table>
         </div>
     </section>
 
